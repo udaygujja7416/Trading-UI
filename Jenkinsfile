@@ -6,14 +6,14 @@ pipeline {
 
         stage('Git Checkout') {
             steps {
-                git 'https://github.com/udaygujja7416/Trading-UI.git'
+                git 'https://github.com/betawins/Trading-UI.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm audit fix'
                 sh 'npm install'
+                sh 'npm audit fix || true'
             }
         }
 
@@ -26,8 +26,10 @@ pipeline {
         stage('Start Application') {
             steps {
                 sh '''
-                cd build
-                pm2 --name Trading-UI start npm -- start
+                npm install -g pm2
+                pm2 stop Trading-UI || true
+                pm2 delete Trading-UI || true
+                pm2 start npm --name "Trading-UI" -- start
                 '''
             }
         }
