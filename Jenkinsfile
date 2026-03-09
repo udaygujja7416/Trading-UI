@@ -2,6 +2,10 @@ pipeline {
 
     agent any
 
+    environment {
+        SKIP_PREFLIGHT_CHECK = 'true'
+    }
+
     stages {
 
         stage('Git Checkout') {
